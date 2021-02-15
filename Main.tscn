@@ -1,0 +1,84 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://BasicCar.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Main.gd" type="Script" id=2]
+[ext_resource path="res://Rul.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Pedals.tscn" type="PackedScene" id=4]
+[ext_resource path="res://font.ttf" type="DynamicFontData" id=5]
+[ext_resource path="res://EnvMain.tscn" type="PackedScene" id=6]
+[ext_resource path="res://ParkingPlace.tscn" type="PackedScene" id=7]
+[ext_resource path="res://PoliceCar.tscn" type="PackedScene" id=8]
+
+[sub_resource type="DynamicFont" id=1]
+size = 32
+font_data = ExtResource( 5 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 40
+outline_size = 5
+outline_color = Color( 0.152941, 0.184314, 0.917647, 1 )
+font_data = ExtResource( 5 )
+
+[sub_resource type="Curve2D" id=3]
+_data = {
+"points": PoolVector2Array( 0, 0, 0, 0, -1234.95, -42.6338, 0, 0, 0, 0, -947.166, 109.585, 0, 0, 0, 0, -813.974, 345.048, 0, 0, 0, 0, -892.462, 525.807, 0, 0, 0, 0, -1194.52, 563.862, 0, 0, 0, 0, -1565.55, 554.348, 0, 0, 0, 0, -1955.61, 478.239, 0, 0, 0, 0, -2160.16, 104.828, 0, 0, 0, 0, -1998.42, -168.69, 0, 0, 0, 0, -1634.53, -228.15, 0, 0, 0, 0, -1358.63, -104.473 )
+}
+
+[node name="Main" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="StaticCanvas" type="CanvasLayer" parent="."]
+
+[node name="Rul" parent="StaticCanvas" instance=ExtResource( 3 )]
+position = Vector2( 167.38, 466.276 )
+z_as_relative = false
+
+[node name="Pedals" parent="StaticCanvas" instance=ExtResource( 4 )]
+position = Vector2( 841.008, 449.013 )
+
+[node name="lbl" type="Label" parent="StaticCanvas"]
+margin_right = 40.0
+margin_bottom = 28.0
+custom_fonts/font = SubResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StolbikiLbl" type="Label" parent="StaticCanvas"]
+margin_left = 137.844
+margin_top = 238.231
+margin_right = 893.844
+margin_bottom = 272.231
+custom_fonts/font = SubResource( 2 )
+text = "Попробуешь припарковаться?
+Только полиции не попадись!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MessageTimer" type="Timer" parent="StaticCanvas"]
+wait_time = 2.0
+
+[node name="EnvMain" parent="." instance=ExtResource( 6 )]
+position = Vector2( 488, 296 )
+
+[node name="ParkingPlace" parent="." instance=ExtResource( 7 )]
+position = Vector2( -1484.14, 213.965 )
+
+[node name="Player1" parent="." instance=ExtResource( 1 )]
+position = Vector2( -1802.78, 55.141 )
+
+[node name="PlayerCamera" type="Camera2D" parent="Player1"]
+current = true
+
+[node name="PoliceCarPath" type="Path2D" parent="."]
+curve = SubResource( 3 )
+
+[node name="PoliceCarPathFollow" type="PathFollow2D" parent="PoliceCarPath"]
+position = Vector2( -1234.95, -42.6338 )
+rotation = 0.48653
+
+[node name="PoliceCar" parent="." instance=ExtResource( 8 )]
+position = Vector2( -1576.49, -17.9599 )
+rotation = -0.3241
+[connection signal="timeout" from="StaticCanvas/MessageTimer" to="." method="_on_MessageTimer_timeout"]

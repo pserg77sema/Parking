@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://brick1.jpg" type="Texture" id=1]
+[ext_resource path="res://Wall.gd" type="Script" id=2]
+
+[node name="Wall" type="StaticBody2D"]
+script = ExtResource( 2 )
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PoolVector2Array( 0, 0, 0, 0, 0, 0 )
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+texture = ExtResource( 1 )
+texture_scale = Vector2( 4000, 4000 )
+polygon = PoolVector2Array( -1.04264, -0.622925, 0.550148, -1.15385, 2.08394, 0.173469, 0.594392, 1.53029, -1.32285, 1.17634, -1.55882, -0.342713 )

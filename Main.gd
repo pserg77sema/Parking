@@ -12,8 +12,12 @@ onready var fl = $Player1/fl
 onready var rr = $Player1/rr
 onready var rl = $Player1/rl
 
+var settings
+var autoRotateBack
+
 var left = false
 var right = false
+var to_zero = false
 
 var is_clicked_rul = false
 var rul_idx = -1
@@ -26,6 +30,7 @@ var p2_idx = -1
 # сигналы на поворот колес
 signal PLAYER_RIGHT
 signal PLAYER_LEFT
+signal BACK_RUL
 
 # скорость поворота колес
 export var ROTATION_SPEED = 3
@@ -33,12 +38,20 @@ export var MOVE_SPEED = 200
 export var ROTATION_MULTIPLER = 0.0005
 
 func _ready():
+	settings = load("user://Settings.tres")
+	if !settings:
+		settings = load("res://Settings.tres")
+	autoRotateBack = settings.autoRotateBack
+	
 	connect("PLAYER_RIGHT", player, "rotate_to")
 	connect("PLAYER_LEFT", player, "rotate_to")
 
 	connect("PLAYER_RIGHT", rul, "rotate_to")
 	connect("PLAYER_LEFT", rul, "rotate_to")
 
+	connect("BACK_RUL", player, "back_rul")
+	connect("BACK_RUL", rul, "back_rul")
+	
 	$StaticCanvas/MessageTimer.start()
 
 	#TODO: удалить! для теста
@@ -49,7 +62,8 @@ func _input(event):
 	# ввод с кнопок
 	if event is InputEventKey:
 		if event.pressed && event.scancode == KEY_ESCAPE:
-			get_tree().quit()
+			#get_tree().quit()
+			get_tree().change_scene("res://MaiinMenu.tscn")
 		if event.pressed && event.scancode == KEY_D:
 			right = true
 		elif event.scancode == KEY_D:
@@ -89,12 +103,14 @@ func _input(event):
 			elif is_clicked_p1 && p1_idx == event.index:
 				is_clicked_p1 = false
 				p1_idx = -1
-
+		
 	if event is InputEventMouseMotion && is_clicked_rul:
 		var re = event.relative
 		if re.x > 0:
+			#right = true
 			emit_signal("PLAYER_RIGHT", ROTATION_SPEED)
 		elif re.x < 0:
+			#left = false
 			emit_signal("PLAYER_LEFT", -ROTATION_SPEED)
 
 		
@@ -103,7 +119,9 @@ func _physics_process(delta):
 		emit_signal("PLAYER_RIGHT", ROTATION_SPEED)
 	if left:
 		emit_signal("PLAYER_LEFT", -ROTATION_SPEED)
-
+	if !is_clicked_rul && !left && !right && autoRotateBack:
+		emit_signal("BACK_RUL")
+		
 	# газ
 	if is_clicked_p2:
 		player.rotate(rul.rotation_degrees * ROTATION_MULTIPLER)

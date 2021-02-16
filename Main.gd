@@ -120,7 +120,7 @@ func _physics_process(delta):
 	if left:
 		emit_signal("PLAYER_LEFT", -ROTATION_SPEED)
 	if !is_clicked_rul && !left && !right && autoRotateBack:
-		emit_signal("BACK_RUL")
+		emit_signal("BACK_RUL", ROTATION_SPEED)
 		
 	# газ
 	if is_clicked_p2:

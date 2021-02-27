@@ -7,7 +7,6 @@ func _ready():
 	if !settings:
 		settings = load("res://Settings.tres")
 	$CenterContainer/VBoxContainer/AutoRotateBack.pressed = settings.autoRotateBack
-	print(settings)
 	
 func _on_Exit_button_down():
 	settings.autoRotateBack = $CenterContainer/VBoxContainer/AutoRotateBack.pressed

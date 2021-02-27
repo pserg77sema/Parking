@@ -1,16 +1,19 @@
 extends Node2D
 
-onready var player = $Player1
+var player = null
+var playerAn = null
+onready var plsc = preload("res://BasicCar.tscn")
 onready var rul = $StaticCanvas/Rul
 onready var rultexture = rul.get_node("rul")
 onready var pedals = $StaticCanvas/Pedals
 onready var pedal1 = $StaticCanvas/Pedals/p1
 onready var pedal2 = $StaticCanvas/Pedals/p2
 onready var parking = $ParkingPlace/parkPlace
-onready var fr = $Player1/fr
-onready var fl = $Player1/fl
-onready var rr = $Player1/rr
-onready var rl = $Player1/rl
+
+var fr = null
+var fl = null
+var rr = null
+var rl = null
 
 var settings
 var autoRotateBack
@@ -43,6 +46,34 @@ func _ready():
 		settings = load("res://Settings.tres")
 	autoRotateBack = settings.autoRotateBack
 	
+	player = plsc.instance()
+	player.name = "Player1"
+	add_child(player)
+	
+	print($"/root/Globals".CurGameMode)
+	print($"/root/Globals".CurNetState)
+	
+	if $"/root/Globals".CurGameMode == $"/root/Globals".GameMode.SINGLE || $"/root/Globals".CurNetState == $"/root/Globals".NetState.I_SERVER:
+		player.position = $SpawnMy.position
+	else:
+		player.position = $SpawnAn.position
+	
+	if $"/root/Globals".CurGameMode == $"/root/Globals".GameMode.MULTIPLE:
+		playerAn = plsc.instance()
+		playerAn.name = "PlayerAn"
+		add_child(playerAn)
+		if $"/root/Globals".CurNetState == $"/root/Globals".NetState.I_SERVER:
+			playerAn.position = $SpawnAn.position
+		else:
+			playerAn.position = $SpawnMy.position
+	
+	player.modulate = Color(1, 0.2, 0.2)
+	
+	fr = $Player1/fr
+	fl = $Player1/fl
+	rr = $Player1/rr
+	rl = $Player1/rl
+	
 	connect("PLAYER_RIGHT", player, "rotate_to")
 	connect("PLAYER_LEFT", player, "rotate_to")
 
@@ -54,8 +85,10 @@ func _ready():
 	
 	$StaticCanvas/MessageTimer.start()
 
+	player.get_node("Camera2D").current = true
+
 	#TODO: удалить! для теста
-	$PoliceCar.drive_along_path($PoliceCarPath/PoliceCarPathFollow)
+	#$PoliceCar.drive_along_path($PoliceCarPath/PoliceCarPathFollow)
 
 func _input(event):
 	
@@ -166,6 +199,10 @@ func _physics_process(delta):
 			$StaticCanvas/StolbikiLbl.visible = true
 			$StaticCanvas/StolbikiLbl.text = "Вроде, припарковался. Молоток."
 		
+		
+	if $"/root/Globals".PeerId >= 0:
+		rpc_id($"/root/Globals".PeerId, "recieve_place", player.position, player.rotation, player.get_node("fr").rotation, player.get_node("fl").rotation)
+
 	#TODO: тоже для теста. слежение за полицейской машиной
 	#var img = $Camera2D.get_viewport().get_texture().get_data()
 	#var tex = ImageTexture.new()
@@ -174,3 +211,10 @@ func _physics_process(delta):
 		
 func _on_MessageTimer_timeout():
 	$StaticCanvas/StolbikiLbl.visible = false
+
+remote func recieve_place(position, direction, fr, fl):
+	print("! place recieved " + str(position, " ", direction))
+	playerAn.position = position
+	playerAn.rotation = direction
+	playerAn.get_node("fr").rotation = fr
+	playerAn.get_node("fl").rotation = fl

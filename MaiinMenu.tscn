@@ -18,15 +18,15 @@ __meta__ = {
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-margin_left = 299.0
+margin_left = 184.0
 margin_top = 194.0
-margin_right = 725.0
+margin_right = 840.0
 margin_bottom = 405.0
 grow_horizontal = 0
 custom_constants/separation = 25
 
 [node name="NewSinglePlayerGame" type="Button" parent="CenterContainer/VBoxContainer"]
-margin_right = 426.0
+margin_right = 656.0
 margin_bottom = 34.0
 custom_fonts/font = SubResource( 1 )
 text = "Одиночная игра"
@@ -36,17 +36,17 @@ __meta__ = {
 
 [node name="NewPVP" type="Button" parent="CenterContainer/VBoxContainer"]
 margin_top = 59.0
-margin_right = 426.0
+margin_right = 656.0
 margin_bottom = 93.0
 custom_fonts/font = SubResource( 1 )
-text = "Два игрока по сети"
+text = "Два игрока по локальной сети"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Options" type="Button" parent="CenterContainer/VBoxContainer"]
 margin_top = 118.0
-margin_right = 426.0
+margin_right = 656.0
 margin_bottom = 152.0
 custom_fonts/font = SubResource( 1 )
 text = "Опции"
@@ -56,7 +56,7 @@ __meta__ = {
 
 [node name="Exit" type="Button" parent="CenterContainer/VBoxContainer"]
 margin_top = 177.0
-margin_right = 426.0
+margin_right = 656.0
 margin_bottom = 211.0
 custom_fonts/font = SubResource( 1 )
 text = "Выход"

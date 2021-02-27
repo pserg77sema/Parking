@@ -1,0 +1,147 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Peer2PeerGame.theme" type="Theme" id=1]
+[ext_resource path="res://Peer2PeerGame.gd" type="Script" id=2]
+
+[node name="Peer2PeerGame" type="CanvasLayer"]
+script = ExtResource( 2 )
+
+[node name="MCIPs" type="MarginContainer" parent="."]
+margin_left = 25.0
+margin_top = 25.0
+margin_right = 465.0
+margin_bottom = 568.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxIPs" type="VBoxContainer" parent="MCIPs"]
+margin_right = 440.0
+margin_bottom = 543.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="MCIPs/VBoxIPs"]
+margin_right = 440.0
+margin_bottom = 33.0
+custom_colors/font_color = Color( 0.0980392, 0.764706, 0.0235294, 1 )
+text = "Сетевые интерфейсы:
+"
+
+[node name="TextEdit" type="TextEdit" parent="MCIPs/VBoxIPs"]
+margin_top = 37.0
+margin_right = 440.0
+margin_bottom = 543.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+text = "fsdfsdf
+fsdfsdfs
+fsdfsdfsd"
+readonly = true
+
+[node name="MCStart" type="MarginContainer" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -509.0
+margin_top = 25.0
+margin_right = -25.0
+margin_bottom = -25.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxStart" type="VBoxContainer" parent="MCStart"]
+margin_right = 484.0
+margin_bottom = 550.0
+theme = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="MCStart/VBoxStart"]
+margin_right = 484.0
+margin_bottom = 33.0
+custom_colors/font_color = Color( 0.0980392, 0.764706, 0.0235294, 1 )
+text = "Стартовать как сервер:
+"
+
+[node name="StartServer" type="Button" parent="MCStart/VBoxStart"]
+margin_top = 37.0
+margin_right = 484.0
+margin_bottom = 58.0
+text = "Старт"
+
+[node name="HSeparator" type="HSeparator" parent="MCStart/VBoxStart"]
+margin_top = 62.0
+margin_right = 484.0
+margin_bottom = 66.0
+
+[node name="Label2" type="Label" parent="MCStart/VBoxStart"]
+margin_top = 70.0
+margin_right = 484.0
+margin_bottom = 103.0
+custom_colors/font_color = Color( 0.0980392, 0.764706, 0.0235294, 1 )
+text = "Стартовать как клиент:
+"
+
+[node name="GridContainer" type="GridContainer" parent="MCStart/VBoxStart"]
+margin_top = 107.0
+margin_right = 484.0
+margin_bottom = 132.0
+columns = 2
+
+[node name="Label" type="Label" parent="MCStart/VBoxStart/GridContainer"]
+margin_top = 5.0
+margin_right = 154.0
+margin_bottom = 20.0
+text = "Адрес сервера:"
+
+[node name="ServerAddress" type="LineEdit" parent="MCStart/VBoxStart/GridContainer"]
+margin_left = 158.0
+margin_right = 300.0
+margin_bottom = 25.0
+text = "127.0.0.1"
+
+[node name="StartClient" type="Button" parent="MCStart/VBoxStart"]
+margin_top = 136.0
+margin_right = 484.0
+margin_bottom = 157.0
+text = "Старт"
+
+[node name="HSeparator2" type="HSeparator" parent="MCStart/VBoxStart"]
+margin_top = 161.0
+margin_right = 484.0
+margin_bottom = 165.0
+
+[node name="Label3" type="Label" parent="MCStart/VBoxStart"]
+margin_top = 169.0
+margin_right = 484.0
+margin_bottom = 202.0
+custom_colors/font_color = Color( 0.0980392, 0.764706, 0.0235294, 1 )
+text = "Лог подключения:
+"
+
+[node name="TextEdit" type="TextEdit" parent="MCStart/VBoxStart"]
+margin_top = 206.0
+margin_right = 484.0
+margin_bottom = 525.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource( 1 )
+text = "fsdfsdf
+fsdfsdfs
+fsdfsdfsd"
+readonly = true
+
+[node name="ToMenu" type="Button" parent="MCStart/VBoxStart"]
+margin_top = 529.0
+margin_right = 484.0
+margin_bottom = 550.0
+text = "В меню"
+[connection signal="pressed" from="MCStart/VBoxStart/StartServer" to="." method="_on_StartServer_pressed"]
+[connection signal="pressed" from="MCStart/VBoxStart/StartClient" to="." method="_on_StartClient_pressed"]
+[connection signal="pressed" from="MCStart/VBoxStart/ToMenu" to="." method="_on_ToMenu_pressed"]
